@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 Assignment</title>
+
+    <style>
+    </style>
+</head>
+<body>
+    <div style="margin-top: 50px; margin-left: 40px; margin-right: 70px; margin-bottom: 90px;">
+        <div>
+            My ID: <span id="my_id"></span>
+        </div>
+        <div>
+            Title: <span id="img_title"></span>
+        </div>
+        <div>
+            Date: <span id="img_date"></span>
+        </div>
+        <div>
+            Alt: <span id="img_alt"></span>
+        </div>
+        <img id="my_img" src="/" alt="Alt not found">
+    </div>
+
+    <script>
+        const my_id = document.getElementById('my_id')   
+        const my_img = document.getElementById('my_img')  
+        const img_title = document.getElementById('img_title')  
+        const img_alt = document.getElementById('img_alt')  
+        const img_date = document.getElementById('img_date')
+
+        function fetchSomeNumber() {
+            const params = new URLSearchParams();
+            return fetch('https://fwd.innopolis.app/api/hw2?email=v.zelenokor@innopolis.university' + params.toString()).then(r => r.json());
+        }
+
+        function fetchImage(id) {
+            const params = new URLSearchParams();
+            return fetch('https://getxkcd.vercel.app/api/comic?num=' + id + params.toString()).then(r => r.json());
+        }
+
+        document.addEventListener("DOMContentLoaded", async function(event) { 
+            id = await fetchSomeNumber()
+            image = await fetchImage(id)
+            
+            // console.log(image)
+
+            my_id.textContent = id
+            my_img.setAttribute('src', image.img)
+            my_img.setAttribute('alt', image.alt)
+            img_title.textContent = image.title
+            img_alt.textContent = image.alt
+            img_date.textContent = new Date(Date.UTC(image.year, image.month, image.day)).toLocaleDateString();
+            
+        });
+    </script>
+</body>
+</html>
